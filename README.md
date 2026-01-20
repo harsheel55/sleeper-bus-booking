@@ -117,7 +117,7 @@ Select Route → View Available Seats → Choose Seats → Confirm Selection
 - **Runtime:** Node.js (v18+)
 - **Framework:** Express.js
 - **API Style:** RESTful
-- **Data Storage:** In-memory (can be replaced with MongoDB/PostgreSQL)
+- **Data Storage:** SQLite (Persistent, with Sequelize ORM)
 
 ### Machine Learning
 - **Language:** Python 3.8+
@@ -140,23 +140,26 @@ sleeper-bus-booking/
 ├── README.md                          # Main documentation (this file)
 ├── PREDICTION_APPROACH.md             # ML model documentation
 ├── backend/
-│   ├── server.js                      # Express API server
+│   ├── server.js                      # Entry point
+│   ├── src/
+│   │   ├── app.js                     # Express App Setup
+│   │   ├── config/                    # Database Config
+│   │   ├── controllers/               # Route Logic
+│   │   ├── models/                    # Sequelize Schemas (SQLite)
+│   │   ├── routes/                    # API Routes
+│   │   ├── middleware/                # Error Handling & Validation
+│   │   └── utils/                     # Helpers (Seeding, Validation)
 │   ├── package.json                   # Node dependencies
-│   ├── .env                           # Environment variables
-│   └── routes/
-│       ├── stations.js                # Station endpoints
-│       ├── seats.js                   # Seat management
-│       ├── bookings.js                # Booking operations
-│       └── meals.js                   # Meal services
+│   └── .env                           # Environment variables
 ├── ml-model/
+│   ├── app.py                         # Flask API Server
 │   ├── prediction_model.py            # ML prediction script
-│   ├── mock_booking_dataset.csv       # Training data (1000 records)
-│   ├── model_insights.json            # Performance metrics
+│   ├── mock_dataset.csv               # Training data
 │   └── requirements.txt               # Python dependencies
 ├── docs/
 │   ├── features.md                    # Detailed feature specs
 │   ├── test-cases.md                  # Complete test suite
-│   └── api-documentation.md           # API reference
+│   └── design-specs.md                # UI/UX Wireframes
 └── design/
     └── figma-prototype-link.txt       # UI/UX design link
 ```
@@ -171,23 +174,42 @@ sleeper-bus-booking/
 - npm or yarn
 - Git
 
-### Backend Setup
+### Quick Start (Recommended)
 
 ```bash
 # 1. Clone the repository
 git clone https://github.com/yourusername/sleeper-bus-booking.git
 cd sleeper-bus-booking
 
-# 2. Navigate to backend
+# 2. Create Python virtual environment
+python -m venv .venv
+.venv\Scripts\activate  # Windows
+# source .venv/bin/activate  # Linux/Mac
+
+# 3. Install Python dependencies
+pip install -r ml-model/requirements.txt
+
+# 4. Install Node.js dependencies
+cd backend
+npm install
+cd ..
+
+# 5. Start both services (Windows PowerShell)
+.\start-all.ps1
+```
+
+### Manual Setup
+
+#### Backend Setup
+
+```bash
+# 1. Navigate to backend
 cd backend
 
-# 3. Install dependencies
+# 2. Install dependencies
 npm install
 
-# 4. Create .env file (optional)
-echo "PORT=3000" > .env
-
-# 5. Start the server
+# 3. Start the server
 npm start
 
 # For development with auto-reload
@@ -196,16 +218,32 @@ npm run dev
 
 **Server will run on:** `http://localhost:3000`
 
-### ML Model Setup
+#### ML Model API Setup
 
 ```bash
 # 1. Navigate to ml-model directory
 cd ml-model
 
 # 2. Install Python dependencies
-pip install pandas numpy scikit-learn
+pip install -r requirements.txt
 
-# 3. Run the model training
+# 3. Start the ML API server
+python app.py
+```
+
+**ML API will run on:** `http://localhost:5000`
+
+### Startup Scripts (Windows)
+
+- `start-all.ps1` - Starts both ML API and Backend API
+- `start-ml.ps1` - Starts only the ML API
+- `start-backend.ps1` - Starts only the Backend API
+
+### Running the Standalone ML Model
+
+```bash
+# Run model training and predictions
+cd ml-model
 python prediction_model.py
 
 # Output files generated:
