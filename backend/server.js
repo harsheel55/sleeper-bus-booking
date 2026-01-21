@@ -3,7 +3,7 @@ const app = require('./src/app');
 const seedData = require('./src/utils/seedData');
 const { sequelize } = require('./src/models');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5001;
 
 async function startServer() {
   try {

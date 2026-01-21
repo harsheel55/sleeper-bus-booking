@@ -113,6 +113,14 @@ Select Route → View Available Seats → Choose Seats → Confirm Selection
 
 ## 🛠 Technology Stack
 
+### Frontend
+- **Framework:** React 18 with Vite
+- **Styling:** Tailwind CSS
+- **Icons:** Lucide React
+- **Routing:** React Router v6
+- **HTTP Client:** Axios
+- **Notifications:** React Hot Toast
+
 ### Backend
 - **Runtime:** Node.js (v18+)
 - **Framework:** Express.js
@@ -139,6 +147,21 @@ Select Route → View Available Seats → Choose Seats → Confirm Selection
 sleeper-bus-booking/
 ├── README.md                          # Main documentation (this file)
 ├── PREDICTION_APPROACH.md             # ML model documentation
+├── frontend/                          # React Frontend Application
+│   ├── src/
+│   │   ├── components/                # Reusable UI components
+│   │   ├── pages/                     # Page components
+│   │   │   ├── HomePage.jsx           # Search & route selection
+│   │   │   ├── SeatSelectionPage.jsx  # Interactive seat map
+│   │   │   ├── MealBookingPage.jsx    # Meal selection
+│   │   │   ├── PassengerDetailsPage.jsx # Passenger info form
+│   │   │   ├── ConfirmationPage.jsx   # Booking confirmation
+│   │   │   └── ManageBookingPage.jsx  # View/Cancel booking
+│   │   ├── context/                   # React Context (booking state)
+│   │   ├── services/                  # API service layer
+│   │   └── App.jsx                    # Main app with routing
+│   ├── package.json                   # Frontend dependencies
+│   └── vite.config.js                 # Vite configuration
 ├── backend/
 │   ├── server.js                      # Entry point
 │   ├── src/
@@ -160,8 +183,7 @@ sleeper-bus-booking/
 │   ├── features.md                    # Detailed feature specs
 │   ├── test-cases.md                  # Complete test suite
 │   └── design-specs.md                # UI/UX Wireframes
-└── design/
-    └── figma-prototype-link.txt       # UI/UX design link
+└── start-all.ps1                      # Start all services script
 ```
 
 ---
@@ -194,11 +216,31 @@ cd backend
 npm install
 cd ..
 
-# 5. Start both services (Windows PowerShell)
+# 5. Install Frontend dependencies
+cd frontend
+npm install
+cd ..
+
+# 6. Start all services (Windows PowerShell)
 .\start-all.ps1
 ```
 
 ### Manual Setup
+
+#### Frontend Setup
+
+```bash
+# 1. Navigate to frontend
+cd frontend
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the development server
+npm run dev
+```
+
+**Frontend will run on:** `http://localhost:3000`
 
 #### Backend Setup
 
@@ -216,7 +258,7 @@ npm start
 npm run dev
 ```
 
-**Server will run on:** `http://localhost:3000`
+**Server will run on:** `http://localhost:5001`
 
 #### ML Model API Setup
 
@@ -235,9 +277,10 @@ python app.py
 
 ### Startup Scripts (Windows)
 
-- `start-all.ps1` - Starts both ML API and Backend API
+- `start-all.ps1` - Starts ML API, Backend API, and Frontend
 - `start-ml.ps1` - Starts only the ML API
 - `start-backend.ps1` - Starts only the Backend API
+- `start-frontend.ps1` - Starts only the Frontend
 
 ### Running the Standalone ML Model
 
